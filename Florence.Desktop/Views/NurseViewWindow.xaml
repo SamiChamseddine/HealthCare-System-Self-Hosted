@@ -1,0 +1,282 @@
+<mah:MetroWindow x:Class="Florence.Desktop.Views.NurseViewWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 Title="Nurse Details"
+                 Width="600"
+                 Height="600"
+                 WindowStartupLocation="CenterOwner"
+                 ResizeMode="CanResize"
+                 Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                 BorderThickness="0">
+
+    <mah:MetroWindow.Resources>
+
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Text}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <Style x:Key="LabelText" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,4,0,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Text}"/>
+        </Style>
+
+        <Style x:Key="ValueText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Text}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="SectionCard" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Control.Background2}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Control.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+    </mah:MetroWindow.Resources>
+
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <TextBlock Text="Nurse Details"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Margin="0,0,0,25"
+                           Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Personal Information" Style="{StaticResource SectionHeader}"/>
+
+                        <TextBlock Text="Full Name" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding FullName}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Position" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Position}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Address" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Address}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="University" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding University}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Birth Year" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding BirthYear}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Marital Status" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding MaritalStatus}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Phone Number" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding PhoneNumber}" Style="{StaticResource ValueText}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Professional Information" Style="{StaticResource SectionHeader}"/>
+
+                        <TextBlock Text="Additional Courses" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding CoursePlus}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Last Workplace" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding LastWorkplace}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Last Salary" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding LastSalary}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Languages" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Languages}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Hospital Experience" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding HospitalExperience}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Vacancy Source" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding VacancySource}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Vacancy (Other)" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding VacancyOther}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Preferences" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Preferences}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Impression" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Impression}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Look" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Look}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Character" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Character}" Style="{StaticResource ValueText}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Experience" Style="{StaticResource SectionHeader}"/>
+
+                        <TextBlock Text="Elderly Care" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding ExperienceElderly}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Newborn Care" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding ExperienceNewborns}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="SNC Experience" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding ExperienceSnc}" Style="{StaticResource ValueText}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Skills" Style="{StaticResource SectionHeader}"/>
+
+                        <UniformGrid Columns="2" Margin="0,5,0,0">
+
+                            <TextBlock Text="Chemotherapy" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillChemo}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Tracheotomy" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillTracheotomy}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Basic Care" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillBasicCare}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Physiotherapy" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillPhysiotherapy}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Colostomy Bag" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillColostomyBag}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="IM Injection" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillIm}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="IV Injection" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillIv}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Foley Catheter" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillFolly}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Suction" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillSuction}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Feeding SNG" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillFeedingSng}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Intra-Dermique" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillIntraDermique}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Drug Administration" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillDrugs}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Pulse Oximeter" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillPulseOxim}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Bed Rest" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillBedRest}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Intubation" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillIntubation}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Gastro Tube" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillGastroTube}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Bed Toilet" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillBedToilet}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Vaccination" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillVaccination}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Dressing" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillDressing}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Bed Sore Treatment" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillBadSore}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Hemo/Gluco Test" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillHemoGlucoTest}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Smoke Test" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillSmoke}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Pulse And Pressure" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillPulsePressure}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="Patient Transport" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillTransportation}" Style="{StaticResource ValueText}"/>
+
+                            <TextBlock Text="First Aid Course" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="{Binding SkillFirstAideCourse}" Style="{StaticResource ValueText}"/>
+
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Availability" Style="{StaticResource SectionHeader}"/>
+
+                        <TextBlock Text="Daily Shift" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding AvailabilityDailyShift}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Night Shift" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding AvailabilityNightShift}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="24 Hours" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Availability24Hours}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Hospital Work" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding AvailabilityWorkInHospital}" Style="{StaticResource ValueText}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource SectionCard}">
+                    <StackPanel>
+                        <TextBlock Text="Record Metadata" Style="{StaticResource SectionHeader}"/>
+
+                        <TextBlock Text="Interviewer" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding Interviewer}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Interview Date" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding InterviewDate}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Created At" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding CreatedAt}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Text="Updated At" Style="{StaticResource LabelText}"/>
+                        <TextBlock Text="{Binding UpdatedAt}" Style="{StaticResource ValueText}"/>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Close"
+                    Width="120"
+                    Height="38"
+                    Style="{StaticResource SecondaryButton}"
+                    Click="Close_Click"/>
+        </StackPanel>
+
+    </Grid>
+</mah:MetroWindow>

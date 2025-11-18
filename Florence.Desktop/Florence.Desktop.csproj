@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PackageIcon>icon.ico</PackageIcon>
+		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\icon.ico" />
+	  <Content Include="Assets\logo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
+		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="6.2.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+		<PackageReference Include="QuestPDF" Version="2025.7.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Florence\Florence.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="icon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Assets\icon.ico">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+</Project>

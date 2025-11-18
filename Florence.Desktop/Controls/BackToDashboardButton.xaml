@@ -1,0 +1,15 @@
+<UserControl x:Class="Florence.Desktop.Controls.BackToDashboardButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cmd="clr-namespace:Florence.Desktop.Commands"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Center">
+
+    <Grid>
+        <Button Content="Back to Dashboard"
+                Command="{x:Static cmd:NavigationCommands.BackToDashboardCommand}"
+                Style="{StaticResource SecondaryButton}"
+                Padding="10,5"
+                HorizontalAlignment="Left"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,143 @@
+<Window x:Class="Florence.Desktop.Views.ExpenseReportViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Expense Report"
+        Width="600"
+        Height="600"
+        Background="{DynamicResource Brush.Surface}"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+
+            <TextBlock Text="Expense Report Details"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource Brush.Text}"
+                       Margin="0,0,0,20"/>
+
+            <Border Background="{DynamicResource Brush.Surface2}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    Padding="15"
+                    Margin="0,0,0,15">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Report ID:" Style="{StaticResource FormLabel}"/>
+                        <TextBlock Text="{Binding ReportId}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="Patient:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding PatientName}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="Period:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding ReportPeriod}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="Total Hours:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding TotalHours}" Foreground="{DynamicResource Brush.Text}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Start Date:" Style="{StaticResource FormLabel}"/>
+                        <TextBlock Text="{Binding StartDate}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="End Date:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding EndDate}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="Created At:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding CreatedAt}" Foreground="{DynamicResource Brush.Text}" />
+
+                        <TextBlock Text="Total Amount:" Style="{StaticResource FormLabel}" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:F2}}"
+                                   Foreground="{DynamicResource Brush.Text}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <TextBlock Text="Expense Items"
+                       FontWeight="SemiBold"
+                       FontSize="16"
+                       Foreground="{DynamicResource Brush.Text}"
+                       Margin="0,0,0,5"/>
+
+            <Border BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    Background="{DynamicResource Brush.Surface2}"
+                    Margin="0,0,0,15">
+
+                <DataGrid ItemsSource="{Binding Items}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column"
+                          Style="{StaticResource ModernDataGrid}"
+                          PreviewMouseWheel="DataGrid_PreviewMouseWheel">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nurse" Binding="{Binding NurseName}" Width="2*" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="1.5*" />
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="3*" />
+                        <DataGridTextColumn Header="Hours" Binding="{Binding Hours}" Width="*" />
+                        <DataGridTextColumn Header="Amount"
+                                            Binding="{Binding Amount, StringFormat={}{0:F2}}"
+                                            Width="1.5*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <Border Background="{DynamicResource Brush.Surface2}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    Padding="15"
+                    Margin="0,0,0,10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Total Hours:" Foreground="{DynamicResource Brush.Text}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding TotalHours}" Foreground="{DynamicResource Brush.Text}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Total Amount:" Foreground="{DynamicResource Brush.Text}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:F2}}"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource Brush.Primary}"
+                               Grid.Row="1" Grid.Column="1"/>
+
+                    <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                               Height="1" Fill="{DynamicResource Brush.Border}"
+                               Margin="0,10,0,0"/>
+                </Grid>
+            </Border>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+
+                <Button Content="Print Report"
+                        Click="Print_Click"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,10,0"/>
+
+                <Button Content="Close"
+                        Click="Close_Click"
+                        Style="{StaticResource SecondaryButton}"/>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

@@ -1,0 +1,242 @@
+<Page x:Class="Florence.Desktop.Views.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="av"
+      Title="Home"
+      Background="{DynamicResource Brush.Bg}">
+
+    <Page.Resources>
+        <Style x:Key="SpacedTabItem" TargetType="TabItem">
+            <Setter Property="Background" Value="{DynamicResource Brush.Surface2}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid>
+                            <Border x:Name="Border" 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1,1,1,0"
+                            CornerRadius="2,2,0,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          ContentSource="Header"
+                                          Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.Surface3}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource Brush.Bg}" MouseDown="Grid_MouseDown">
+        <TabControl x:Name="MainTabs"
+                    Background="{DynamicResource Brush.Bg}"
+                    Foreground="{DynamicResource Brush.Text}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    SelectedIndex="0">
+
+            <TabItem Header="Invoices" Style="{StaticResource SpacedTabItem}">
+                <Grid Background="{DynamicResource Brush.Surface}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Background="{DynamicResource Brush.Surface2}" LastChildFill="False" Margin="5">
+                        <TextBlock Text="Invoices" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,20,0" DockPanel.Dock="Left"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                            <CheckBox x:Name="HideDeletedCheckBox" Content="Hide Deleted" IsChecked="True" Margin="0,0,10,0" Checked="FilterInvoices" Unchecked="FilterInvoices"/>
+                            <TextBox x:Name="InvoiceSearchBox" Width="200" Margin="0,0,10,0" VerticalAlignment="Center" ToolTip="Search by customer, ID, or status" TextChanged="InvoiceSearchBox_TextChanged"/>
+                            <Button Content="Mark Paid" Click="MarkPaid_Click" Style="{StaticResource PrimaryButton}" Margin="5,0,0,0"/>
+                            <Button Content="Edit" Click="Edit_Click" Style="{StaticResource SecondaryButton}" Margin="5,0,0,0"/>
+                            <Button Content="View" Click="View_Click" Style="{StaticResource SecondaryButton}" Margin="5,0,0,0"/>
+                            <Button Content="Delete" Click="Delete_Click" Style="{StaticResource DangerButton}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataGrid x:Name="InvoicesGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Style="{StaticResource ModernDataGrid}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" Margin="10,5,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Invoice ID" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="Customer" Binding="{Binding CustomerName}" Width="2*" />
+                            <DataGridTextColumn Header="Date Created" Binding="{Binding DateCreated}" Width="*" />
+                            <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:F2}}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="Paid">
+                                                <Setter Property="Foreground" Value="Green"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                <Setter Property="Foreground" Value="Goldenrod"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Late">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Deleted">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                                <Setter Property="FontStyle" Value="Italic"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Expense Reports" Style="{StaticResource SpacedTabItem}">
+                <Grid Background="{DynamicResource Brush.Surface}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Background="{DynamicResource Brush.Surface2}" LastChildFill="False" Margin="5">
+                        <TextBlock Text="Expense Reports" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,20,0" DockPanel.Dock="Left"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                            <TextBox x:Name="ExpenseSearchBox" Width="200" Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         ToolTip="Search expense reports"
+                         TextChanged="ExpenseSearchBox_TextChanged"/>
+                            <Button Content="Edit" Click="Edit_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="View" Click="View_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="Delete" Click="Delete_Click" Style="{StaticResource DangerButton}"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataGrid x:Name="ExpenseReportsGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Style="{StaticResource ModernDataGrid}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" Margin="10,5,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="Patient" Binding="{Binding PatientName}" Width="2*" />
+                            <DataGridTextColumn Header="Period" Binding="{Binding ReportPeriod}" Width="2*" />
+                            <DataGridTextColumn Header="Total Hours" Binding="{Binding TotalHours}" Width="*" />
+                            <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount, StringFormat={}{0:F2}}" Width="*" />
+                            <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Customers" Style="{StaticResource SpacedTabItem}">
+                <Grid Background="{DynamicResource Brush.Surface}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Background="{DynamicResource Brush.Surface2}" LastChildFill="False" Margin="5">
+                        <TextBlock Text="Customers" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="5"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                            <TextBox x:Name="CustomerSearchBox" Width="200" Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         ToolTip="Search customers"
+                         TextChanged="CustomerSearchBox_TextChanged"/>
+                            <Button Content="Edit" Click="Edit_Click" Style="{StaticResource SecondaryButton}" Margin="5,0,0,0"/>
+                            <Button Content="View" Click="View_Click" Style="{StaticResource SecondaryButton}" Margin="5,0,0,0"/>
+                            <Button Content="Delete" Click="Delete_Click" Style="{StaticResource DangerButton}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataGrid x:Name="CustomersGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Style="{StaticResource ModernDataGrid}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" Margin="10,5,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Customer ID" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" />
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="2*" />
+                            <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" />
+                            <DataGridTextColumn Header="Registered" Binding="{Binding RegisteredDate}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Patients" Style="{StaticResource SpacedTabItem}">
+                <Grid Background="{DynamicResource Brush.Surface}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Background="{DynamicResource Brush.Surface2}" LastChildFill="False" Margin="5">
+                        <TextBlock Text="Patients" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,20,0" DockPanel.Dock="Left"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                            <TextBox x:Name="PatientSearchBox" Width="200" Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         ToolTip="Search patients"
+                         TextChanged="PatientSearchBox_TextChanged"/>
+                            <Button Content="Edit" Click="Edit_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="View" Click="View_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="Delete" Click="Delete_Click" Style="{StaticResource DangerButton}"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataGrid x:Name="PatientsGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Style="{StaticResource ModernDataGrid}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" Margin="10,5,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}" Width="2*" />
+                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="*" />
+                            <DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="*" />
+                            <DataGridTextColumn Header="DOB" Binding="{Binding DateOfBirth}" Width="*" />
+                            <DataGridTextColumn Header="Expense Reports" Binding="{Binding ExpenseReportCount}" Width="*" />
+                            <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Nurses" Style="{StaticResource SpacedTabItem}">
+                <Grid Background="{DynamicResource Brush.Surface}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Background="{DynamicResource Brush.Surface2}" LastChildFill="False" Margin="5">
+                        <TextBlock Text="Nurses" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,20,0" DockPanel.Dock="Left"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                            <TextBox x:Name="NurseSearchBox" Width="200" Margin="0,0,10,0"
+                         VerticalAlignment="Center"
+                         ToolTip="Search nurses"
+                         TextChanged="NurseSearchBox_TextChanged"/>
+                            <Button Content="Edit" Click="Edit_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="View" Click="View_Click" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+                            <Button Content="Delete" Click="Delete_Click" Style="{StaticResource DangerButton}"/>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataGrid x:Name="NursesGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Style="{StaticResource ModernDataGrid}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" Margin="10,5,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}" Width="2*" />
+                            <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="*" />
+                            <DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="*" />
+                            <DataGridTextColumn Header="Expense Items" Binding="{Binding ExpenseItemCount}" Width="*" />
+                            <DataGridTextColumn Header="Created" Binding="{Binding CreatedAt}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Page>

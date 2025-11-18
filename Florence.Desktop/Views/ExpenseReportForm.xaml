@@ -1,0 +1,269 @@
+<Page x:Class="Florence.Desktop.Views.ExpenseReportForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:utils="clr-namespace:Florence.Desktop.Utils"
+      xmlns:controls="clr-namespace:Florence.Desktop.Controls"
+      mc:Ignorable="av"
+      Title="Expense Report"
+      Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+
+    <Page.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <utils:DateOnlyConverter x:Key="DateOnlyConverter" />
+
+        <Style x:Key="ModernDataGrid" TargetType="DataGrid"/>
+
+        <Style x:Key="SummaryText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Text}"/>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid Margin="30" Background="Transparent" MouseDown="Grid_MouseDown">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Focusable="False">
+
+            <StackPanel>
+
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <controls:BackToDashboardButton 
+        Grid.Column="0"
+        Margin="0,0,20,0"
+        VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding HeaderText}"
+               Grid.Column="1"
+               FontSize="22"
+               FontWeight="Bold"
+               Foreground="{DynamicResource MahApps.Brushes.Text}"
+               VerticalAlignment="Center"/>
+                </Grid>
+
+
+                <Border Background="{DynamicResource MahApps.Brushes.Control.Background2}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}"
+                        BorderThickness="1"
+                        Padding="15"
+                        Margin="0,0,0,15">
+
+                    <StackPanel>
+                        <TextBlock Text="Patient *" Style="{StaticResource FormLabel}"/>
+
+                        <ComboBox ItemsSource="{Binding Patients}"
+                                  DisplayMemberPath="FullName"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding PatientId, Mode=TwoWay}"
+                                  Style="{StaticResource FormComboBox}"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                </Border>
+
+                <Border Background="{DynamicResource MahApps.Brushes.Control.Background2}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}"
+                        BorderThickness="1"
+                        Padding="15"
+                        Margin="0,0,0,15">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="4">
+                            <TextBlock Text="Start Date *" Style="{StaticResource FormLabel}"/>
+                            <DatePicker SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyConverter}, Mode=TwoWay}"
+                                        Style="{StaticResource FormDatePicker}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="4">
+                            <TextBlock Text="End Date *" Style="{StaticResource FormLabel}"/>
+                            <DatePicker SelectedDate="{Binding EndDate, Converter={StaticResource DateOnlyConverter}, Mode=TwoWay}"
+                                        Style="{StaticResource FormDatePicker}"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Border>
+
+                <Border Background="{DynamicResource MahApps.Brushes.Control.Background2}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}"
+                        BorderThickness="1"
+                        Padding="15"
+                        Margin="0,0,0,15">
+
+                    <StackPanel>
+
+                        <DockPanel Margin="0,0,0,10" LastChildFill="False">
+
+                            <TextBlock Text="Expense Items *"
+               FontWeight="SemiBold"
+               Foreground="{DynamicResource MahApps.Brushes.Text}"
+               VerticalAlignment="Center"
+               DockPanel.Dock="Left"/>
+
+                            <Button Content="+ Add Item"
+            Width="80"
+            Command="{Binding AddItemCommand}"
+            Style="{StaticResource PrimaryButton}"
+            DockPanel.Dock="Right"/>
+                        </DockPanel>
+
+
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}"
+                                BorderThickness="1"
+                                Background="{DynamicResource MahApps.Brushes.Control.Background}">
+
+                            <DataGrid ItemsSource="{Binding Items}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      HeadersVisibility="Column"
+                                      IsReadOnly="False"
+                                      PreviewMouseWheel="DataGrid_PreviewMouseWheel"
+                                      Style="{StaticResource ModernDataGrid}">
+
+                                <DataGrid.Columns>
+
+                                    <DataGridComboBoxColumn Header="Nurse"
+                                                            SelectedValueBinding="{Binding NurseId, Mode=TwoWay}"
+                                                            SelectedValuePath="Id"
+                                                            DisplayMemberPath="FullName">
+
+                                        <DataGridComboBoxColumn.ElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <Setter Property="ItemsSource"
+                                                        Value="{Binding DataContext.Nurses,
+                                                                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                                         AncestorType=Page}}"/>
+                                            </Style>
+                                        </DataGridComboBoxColumn.ElementStyle>
+
+                                        <DataGridComboBoxColumn.EditingElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <Setter Property="ItemsSource"
+                                                        Value="{Binding DataContext.Nurses,
+                                                                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                                         AncestorType=Page}}"/>
+                                            </Style>
+                                        </DataGridComboBoxColumn.EditingElementStyle>
+
+                                    </DataGridComboBoxColumn>
+
+                                    <DataGridTemplateColumn Header="Date" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker SelectedDate="{Binding Date,
+                                                                            Converter={StaticResource DateOnlyConverter},
+                                                                            Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Description"
+                                                        Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="3*"/>
+
+                                    <DataGridTextColumn Header="Hours"
+                                                        Binding="{Binding Hours, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="1*"/>
+
+                                    <DataGridTextColumn Header="Amount"
+                                                        Binding="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="1*"/>
+
+                                    <DataGridTemplateColumn Header="Action" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Remove"
+                Command="{Binding DataContext.RemoveItemCommand,
+                                  RelativeSource={RelativeSource AncestorType=Page}}"
+                CommandParameter="{Binding}"
+                Style="{StaticResource DangerButton}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </Border>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Background="{DynamicResource MahApps.Brushes.Control.Background2}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}"
+                        BorderThickness="1"
+                        Padding="15"
+                        Margin="0,10,0,15">
+
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+               Text="Total Hours:" 
+               Style="{StaticResource SummaryText}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="3"
+               Text="{Binding TotalHours}"
+               Style="{StaticResource SummaryText}"
+               TextAlignment="Right"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+               Text="Total Amount:" 
+               Style="{StaticResource SummaryText}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="3"
+               Text="{Binding TotalAmount, StringFormat={}{0:F2}}"
+               Style="{StaticResource SummaryText}"
+               TextAlignment="Right"/>
+                    </Grid>
+
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+
+            <Button Content="{Binding SaveButtonText}"
+                    Click="Save_Click"
+                    Style="{StaticResource PrimaryButton}"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="Clear"
+                    Click="Clear_Click"
+                    Style="{StaticResource SecondaryButton}"/>
+        </StackPanel>
+
+    </Grid>
+
+</Page>
