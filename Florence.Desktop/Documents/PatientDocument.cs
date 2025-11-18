@@ -205,7 +205,7 @@ namespace Florence.Desktop.Documents
 
                 col.Item().PaddingTop(10)
                     .AlignCenter()
-                    .Text("FlorenceHealthCareAtHome@outlook.com | +961 71 385 125")
+                    .Text("email | phone number")
                     .FontColor(Colors.Grey.Medium);
 
                 col.Item().AlignCenter().Text(txt =>
