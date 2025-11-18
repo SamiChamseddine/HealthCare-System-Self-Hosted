@@ -252,7 +252,7 @@ namespace Florence.Desktop.Documents
 
                 col.Item().PaddingTop(10).AlignCenter().Text(txt =>
                 {
-                    txt.Span("FlorenceHealthCareAtHome@outlook.com | +961 71 385 125").FontColor(Colors.Grey.Medium);
+                    txt.Span("email | phone number").FontColor(Colors.Grey.Medium);
                 });
 
                 col.Item().AlignCenter().Text(txt =>
